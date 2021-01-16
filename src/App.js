@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { BasicTable } from './components/BasicTable';
+import { SortingTable } from './components/SortingTable';
 
 function App() {
   return (
@@ -20,7 +21,9 @@ function App() {
         </a>
       </header> */}
 
-      <BasicTable />
+      {/* <BasicTable /> */}
+
+      <SortingTable />
     </div>
   );
 }
