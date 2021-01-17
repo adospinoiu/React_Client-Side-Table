@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
-import { useTable } from 'react-table';
+import { useTable, useGlobalFilter, useFilters } from 'react-table';
 import MOCK_DATA from './MOCK_DATA.json';
 import { COLUMNS, GROUPED_COLUMNS } from './columns';
+import { GlobalFilter } from './GlobalFilter';
 import './BasicTable.css'
 
-export const BasicTable = () => {
+export const FilteringTable = () => {
 
     // By using the useMemo() you ensure that the table is not re-rendered every time. Otherwise, react would think it is receiving new data every time.
     // #############################################################################
@@ -24,20 +25,28 @@ export const BasicTable = () => {
         footerGroups,           // This is an array
         rows,
         prepareRow,
+        state,
+        setGlobalFilter,
     } = useTable({
         columns,
         data,
-    })
+    }, 
+    useFilters,
+    useGlobalFilter)
 
+    const { globalFilter } = state
 
     return (
-        <div>
+        <>
+            <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
             <table {...getTableProps()}>
                 <thead>
                     {headerGroups.map((headerGroup) => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (
-                                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                                <th {...column.getHeaderProps()}>{column.render('Header')}
+                                <div>{column.canFilter ? column.render('Filter') : null</div>
+                                </th>
                             ))}
                         </tr>
                     ))}
@@ -64,6 +73,6 @@ export const BasicTable = () => {
                     ))}
                 </tfoot>
             </table>
-        </div>
+        </>
     )
 }
