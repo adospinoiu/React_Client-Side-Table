@@ -22,15 +22,23 @@ export const PaginationTable = () => {
         getTableBodyProps,      // This is a function
         headerGroups,           // This is an array
         page,
-        nextPage,
-        previousPage,
+        nextPage,               // This allows for the 'page movement buttons'
+        previousPage,           // This allows for the 'page movement buttons'
+        canNextPage,            // This allows for the 'page movement buttons'
+        canPreviousPage,        // This allows for the 'page movement buttons'
+        pageOptions,            // This allows for the 'page preview' (i.e. x of x)
+        gotoPage,               // This allows for the 'go to specific page' entry field
+        pageCount,              // This allows for the 'go to specific page' entry field
+        state,                  
         prepareRow,
     } = useTable({
         columns,
         data,
+        initialState: { pageIndex: 0}       // This sets the initial page of the table unpon loading
     },
         usePagination)
 
+    const { pageIndex } = state;
 
     return (
         <div>
@@ -58,8 +66,25 @@ export const PaginationTable = () => {
                 </tbody>
             </table>
             <div>
-                <button onClick={() => previousPage()}>Previous</button>
-                <button onClick={() => nextPage()}>Next</button>
+                {/* This shows a page index so the user knows how many total pages there are */}
+                <span>Page{' '}<strong>{pageIndex + 1} of {pageOptions.length}</strong>{' '}</span>
+
+                {/* This is the entry field so the user can go to a specific page number */}
+                <span>
+                    | Go to page: {' '}
+                    <input type='number' defaultValue={pageIndex + 1}
+                    onChange={e => {
+                        const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0
+                        gotoPage(pageNumber)
+                    }}
+                    style={{width: '50px'}} />
+                </span>
+
+                {/* These are the buttons that allow the user to move through the various pages of the table */}
+                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>{'<<'}</button>
+                <button onClick={() => previousPage()} disabled={!canPreviousPage}>Previous</button>
+                <button onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
+                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{'>>'}</button>
             </div>
         </div>
     )
