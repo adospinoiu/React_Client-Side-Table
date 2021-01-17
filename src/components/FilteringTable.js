@@ -39,13 +39,14 @@ export const FilteringTable = () => {
     return (
         <>
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+            
             <table {...getTableProps()}>
                 <thead>
                     {headerGroups.map((headerGroup) => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (
                                 <th {...column.getHeaderProps()}>{column.render('Header')}
-                                <div>{column.canFilter ? column.render('Filter') : null</div>
+                                <div>{column.canFilter ? column.render('Filter') : null}</div>
                                 </th>
                             ))}
                         </tr>
