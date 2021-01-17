@@ -28,7 +28,7 @@ export const SortingTable = () => {
         columns,
         data,
     },
-    useSortBy)
+        useSortBy)
 
 
     return (
@@ -39,9 +39,7 @@ export const SortingTable = () => {
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (
                                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>{column.render('Header')}
-                                    <span>
-                                        {column.isSorted ? (column.isSortedDesc ? '🔽' : '🔼') : ''}
-                                    </span>
+                                    <span>{column.isSorted ? (column.isSortedDesc ? '🔽' : '🔼') : ''}</span>
                                 </th>
                             ))}
                         </tr>

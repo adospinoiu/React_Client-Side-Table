@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 // These are the columns that will be rendered to the client
 // The 'Header' & 'Footer' are the title of the column that will show up on the client side
 // The 'accessor' is the WAY the data will be accessed from the MOCK_DATA.json file
@@ -21,7 +23,8 @@ export const COLUMNS = [
     {
         Header: 'Date of Birth',
         Footer: 'Date of Birth',
-        accessor: 'date_of_birth'
+        accessor: 'date_of_birth',
+        Cell: ({ value }) => { return format(new Date(value), 'dd/MM/yyyy')}
     },
     {
         Header: 'Country',
