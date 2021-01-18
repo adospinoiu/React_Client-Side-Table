@@ -29,6 +29,7 @@ export const PaginationTable = () => {
         pageOptions,            // This allows for the 'page preview' (i.e. x of x)
         gotoPage,               // This allows for the 'go to specific page' entry field
         pageCount,              // This allows for the 'go to specific page' entry field
+        setPageSize,
         state,                  
         prepareRow,
     } = useTable({
@@ -38,7 +39,7 @@ export const PaginationTable = () => {
     },
         usePagination)
 
-    const { pageIndex } = state;
+    const { pageIndex, pageSize } = state;
 
     return (
         <div>
@@ -79,6 +80,16 @@ export const PaginationTable = () => {
                     }}
                     style={{width: '50px'}} />
                 </span>
+
+                {/* This is the entry field so the user can select how many rows per page that should be displayed. (i.e. 10, 25, 50) */}
+                <select value={pageSize} onChange={e => setPageSize(Number(e.target.value))}>
+                    {
+                        [10, 25, 50].map(pageSize => (
+                    <option key={pageSize} value={pageSize}>
+                            Show {pageSize}
+                    </option>
+                ))}
+                </select>
 
                 {/* These are the buttons that allow the user to move through the various pages of the table */}
                 <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>{'<<'}</button>
