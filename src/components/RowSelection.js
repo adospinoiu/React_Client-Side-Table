@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
-import { useTable } from 'react-table';
+import { useTable, useRowSelect } from 'react-table';
 import MOCK_DATA from './MOCK_DATA.json';
 import { COLUMNS, GROUPED_COLUMNS } from './columns';
+import { Checkbox } from './Checkbox';
 import './BasicTable.css'
 
 export const RowSelection = () => {
@@ -24,12 +25,31 @@ export const RowSelection = () => {
         footerGroups,           // This is an array
         rows,
         prepareRow,
+        selectedFlatRows
     } = useTable({
         columns,
         data,
-    })
+    },
+        useRowSelect,
+        (hooks) => {
+            hooks.visibleColumns.push((columns) => {
+                return[
+                    {
+                        id: 'selection',
+                        Header: ({ getToggleAllRowsSelectedProps}) => (
+                            <Checkbox {...getToggleAllRowsSelectedProps()} />
+                        ),
+                        Cell: ({ row }) => (
+                            <Checkbox {...row.getToggleRowSelectedProps()} />
+                        )
+                    },
+                    ...columns
+                ]
+            })
+        }
+    )
 
-    const firstPageRows = rows.slice(0,10);
+    const firstPageRows = rows.slice(0, 10);
 
     return (
         <div>
@@ -65,6 +85,17 @@ export const RowSelection = () => {
                     ))}
                 </tfoot>
             </table>
+            <pre>
+                    <code>
+                        {JSON.stringify(
+                            {
+                                selectedFlatRows: selectedFlatRows.map((row) => row.original),
+                            },
+                            null,
+                            2
+                        )}
+                    </code>
+                </pre>
         </div>
     )
 }
