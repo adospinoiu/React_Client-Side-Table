@@ -5,6 +5,7 @@ import { SortingTable } from './components/SortingTable';
 import { FilteringTable } from './components/FilteringTable';
 import { PaginationTable } from './components/PaginationTable';
 import { RowSelection } from './components/RowSelection';
+import { ColumnOrder } from './components/ColumnOrder';
 
 function App() {
   return (
@@ -32,7 +33,9 @@ function App() {
 
       {/* <PaginationTable /> */}
 
-      <RowSelection />
+      {/* <RowSelection /> */}
+
+      <ColumnOrder />
     </div>
   );
 }
